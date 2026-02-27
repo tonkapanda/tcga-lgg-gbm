@@ -42,7 +42,7 @@ tune_results <- uci_workflow |>
   tune_grid(
     resamples = cv_folds,
     grid = knn_grid,
-    metrics = metric_set(accuracy, roc_auc)
+    metrics = metric_set(accuracy, roc_auc, precision, recall, f_meas, mcc)
   )
 
 
@@ -68,7 +68,7 @@ uci_knn_detailed_plot <- tune_results |>
   collect_metrics() |>
   filter(.metric == "roc_auc") |>
   ggplot(aes(x = neighbors, y = mean, color = weight_func)) +
-  geom_line(size = 1) +
+  geom_line(linewidth = 1) +
   geom_point() +
   facet_wrap(~ dist_power, labeller = label_both) +
   scale_color_viridis_d(option = "plasma") +
